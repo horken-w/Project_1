@@ -5,26 +5,40 @@ $(function(){
 		datatype: 'json',
 		success: setmenu
 	})
+	var updateOutput = function(e){
+		console.log(e);
+	    var list   = e.length ? e : $(e.target),
+	        output = list.data('output');
+	    if (window.JSON) {
+	        output.html(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
+	    } else {
+	        output.html('JSON browser support required for this demo.');
+	    }
+	};
 	$('#menulistLeft').nestable({
-		group: 1
+		group: 1,
+		maxDepth:0
 	});
 	$('#menulistRight').nestable({
-		group: 1,
-		maxDepth: 2
-	});	
+		group: 1
+	})
+
+	$('input[type=button]').on('click', function(){
+		updateOutput($('#menulistRight').data('output', $('#nestable-output')));
+	});
 })
 function setmenu(jmenu){
 	var list=$.parseJSON(jmenu);
 
 	$.each(list.menuList, function(i, val){
-		var $menu=menuList(val)
-		$('#menulistLeft').append($menu);
+		
+		$('#menulistLeft').children().append(menuList(val));
 	})
 	if(list.userList.length <= 0)
 		$('<div class="dd-empty"></div>').appendTo('#menulistRight');
 	else{
 		$.each(list.userList, function(i, val){
-			$('#menulistRight').append('<ol class="dd-list">'+modelList(val)+'</ol>');
+			$('#menulistRight').children().append(modelList(val));
 		})
 	}
 }
@@ -37,7 +51,6 @@ function modelList(item){
 				buildmenu+= modelList(sub);
 			});
 			buildmenu+='</ol>'
-			console.log(item.menu)
 		}
 	buildmenu+='</li>'
 	return buildmenu;
