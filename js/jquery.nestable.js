@@ -149,11 +149,13 @@
                 {
                     var array = [ ],
                         items = level.children(list.options.itemNodeName);
+                        // console.log(level+' '+ depth)
                     items.each(function()
                     {
                         var li   = $(this),
                             item = $.extend({}, li.data()),
                             sub  = li.children(list.options.listNodeName);
+                            
                         if (sub.length) {
                             item.children = step(sub, depth + 1);
                         }
