@@ -1,21 +1,23 @@
 <meta charset="utf-8">
 <style>
-	.setb{display: block;}
+	.setb{display: block; clear: both;}
 	.line{float: left;}
 </style>
 
 <div class="setb">查看</div>
-<div class="line"><input type="radio" name="view"><label for="">權限1</label></div>
-<div class="line"><input type="radio" name="view"><label for="">權限1</label></div>
-<div class="line"><input type="radio" name="view"><label for="">權限1</label></div>
-<div><input type="radio" name="view"><label for="">權限1</label></div>
-<div class="setb">刪除</div>
-<div class="line"><input type="radio" name="del"><label for="">權限1</label></div>
-<div class="line"><input type="radio" name="del"><label for="">權限1</label></div>
-<div class="line"><input type="radio" name="del"><label for="">權限1</label></div>
-<div><input type="radio" name="del"><label for="">權限1</label></div>
-<div class="setb">修改</div>
-<div class="line"><input type="radio" name="modify"><label for="">權限1</label></div>
-<div class="line"><input type="radio" name="modify"><label for="">權限1</label></div>
-<div class="line"><input type="radio" name="modify"><label for="">權限1</label></div>
-<div><input type="radio" name="modify"><label for="">權限1</label></div>
+<form>
+	<div class="line"><input type="radio" name="view" value="4"><label for="all">全部</label></div>
+	<div class="line"><input type="radio" name="view" value="3"><label for="">群組</label></div>
+	<div class="line"><input type="radio" name="view" value="2"><label for="">自己</label></div>
+	<divclass="line"><input type="radio" name="view" value="1" checked><label for="">無權限</label></div>
+	<div class="setb">刪除</div>
+	<div class="line"><input type="radio" name="del" value="1"><label for="">全部</label></div>
+	<div class="line"><input type="radio" name="del" value="2"><label for="">群組</label></div>
+	<div class="line"><input type="radio" name="del" value="3"><label for="">自己</label></div>
+	<divclass="line"><input type="radio" name="del" value="4" checked><label for="">無權限</label></div>
+	<div class="setb">修改</div>
+	<div class="line"><input type="radio" name="modify" value="1"><label for="">全部</label></div>
+	<div class="line"><input type="radio" name="modify" value="2"><label for="">群組</label></div>
+	<div class="line"><input type="radio" name="modify" value="3"><label for="">自己</label></div>
+	<divclass="line"><input type="radio" name="modify" value="4" checked><label for="">無權限</label></div>
+</form>

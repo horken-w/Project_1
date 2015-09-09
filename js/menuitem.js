@@ -28,7 +28,7 @@ function modelList(item){
 }
 
 function menuList(item){
-	var buildmenu = '<li class="dd-item dd3-item" data-name="' + item.name + '" data-auth="' + item.viewable + '">';
+	var buildmenu = '<li class="dd-item dd3-item dd-nonest" data-name="' + item.name + '" data-auth="' + item.viewable + '">';
 		buildmenu += '<div class="dd-handle dd3-handle">DragHere</div><div class="dd3-content" name=" menu' + item.linklistid + '">' + item.name + '</div></li>';
 		if(item.menu){
 			$.each(item.menu, function(i, sub){
@@ -37,19 +37,31 @@ function menuList(item){
 		}
 	return buildmenu;
 }
-function setPermissions(){
+
+function setPermissions(e){
+	var p=123;
 	 BootstrapDialog.show({
-        title: 'Button Hotkey',
+        title: '使用者權限設定',
+        closable: false,
         message: $('<div></div>').load('../nestableList/permiss.html'),
         buttons: [{
             label: '送出',
             cssClass: 'btn-primary',
             hotkey: 13, // Enter.
-            action: function() {
+            action: function(data) {
+            	$(e.target).parent()
+            	.attr({
+            	    'data-viewable': $('input[name="view"]:checked').val(),
+            	    'data-delable': $('input[name="del"]:checked').val(),
+            	    'data-ediable': $('input[name="modify"]:checked').val()
+            	 })
+            	// $(this).attr({
+            	// 	'data-viewable': e.view.val() 
+            	// })
+            	data.close();
             }
         }]
     });
-	return true;
 }
 $(function(){
 	$.ajax({
@@ -71,13 +83,15 @@ $(function(){
 		group: 1
 	});
 	$('#menulistRight').nestable({
-		group: 1
+		group: 1,
+		maxDepth: 3
 	})
 
+var a;
 	$('input[type=button]:first-child').on('click', function(){
 		updateOutput($('#menulistRight').data('output', $('#nestable-output')));
 	});
-	$('#menulistRight').on('click','.dd3-content', function(){
-		var permse=setPermissions();
+	$('#menulistRight').on('click','.dd3-content', function(e){
+		var permse=setPermissions(e);
 	});
 })
