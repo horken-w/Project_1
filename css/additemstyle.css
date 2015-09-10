@@ -327,3 +327,5 @@ p {
 .dd3-handle:hover {
     background: #ddd;
 }
+.setb{display: block; clear: both;}
+.line{float: left;}
