@@ -327,5 +327,22 @@ p {
 .dd3-handle:hover {
     background: #ddd;
 }
-.setb{display: block; clear: both;}
-.line{float: left;}
+.add{
+    width: 3%;
+    font-size: 1em;
+    margin-left: 10px;
+    padding: 5px;
+    padding-top: 0;
+    font-weight: 900;
+    float: left;
+}
+#menuadd{
+    width: 30%;
+    float: left;
+}
+.clear{
+    clear: both;
+}
+span{
+    float: left;
+}

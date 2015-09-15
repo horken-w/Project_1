@@ -28,7 +28,8 @@ function modelList(item){
 }
 
 function menuList(item){
-	var buildmenu = '<li class="dd-item dd3-item dd-nonest" data-name="' + item.name + '" data-auth="' + item.viewable + '">';
+	console.log(item);
+	var buildmenu = '<li class="dd-item dd3-item dd-nonest" data-name="' + item.name + '">';
 		buildmenu += '<div class="dd-handle dd3-handle">DragHere</div><div class="dd3-content" name=" menu' + item.linklistid + '">' + item.name + '</div></li>';
 		if(item.menu){
 			$.each(item.menu, function(i, sub){
@@ -37,7 +38,6 @@ function menuList(item){
 		}
 	return buildmenu;
 }
-
 function setPermissions(e){
 	var p=123;
 	 BootstrapDialog.show({
@@ -55,13 +55,13 @@ function setPermissions(e){
             	    'data-delable': $('input[name="del"]:checked').val(),
             	    'data-ediable': $('input[name="modify"]:checked').val()
             	 })
-            	// $(this).attr({
-            	// 	'data-viewable': e.view.val() 
-            	// })
             	data.close();
             }
         }]
     });
+}
+function creatNode(){
+
 }
 $(function(){
 	$.ajax({
@@ -86,12 +86,22 @@ $(function(){
 		group: 1,
 		maxDepth: 3
 	})
-
-var a;
 	$('input[type=button]:first-child').on('click', function(){
 		updateOutput($('#menulistRight').data('output', $('#nestable-output')));
 	});
 	$('#menulistRight').on('click','.dd3-content', function(e){
 		var permse=setPermissions(e);
 	});
+	$('body').on( 'click','.add', function(){
+		$('#menuadd').stop().toggle(1000);
+	})
+	$('input[name=submit]').on('click', function(){
+		var name=$('input[type=text]').val(),
+			weight=$('input[type=number]').val();
+		if(name.length>0 || weight>0){
+			$('#menulistLeft').append(menuList({name: name, linklistid: weight}));
+
+		}
+		else $('#menuadd').after('<span>欄位不可為空白</span>').next().css('color', 'red');
+	})
 })

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>First Layout</title>
+	<link rel="stylesheet" href="css/additemstyle.css?20150921">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<style>
+		#menuadd{
+			float: left;
+			border: 5px double hsl(0, 0%, 65%);
+			padding: 1em;
+		}
+		input[type=text]{
+			width: 45%;
+		}
+		input[type=number]{
+			width: 35%;
+		}
+	</style>
+</head>
+<body>
+	
+
+	<div><ol id="first"></ol></div>
+	<script src="https://dl.dropboxusercontent.com/u/50502234/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="js/jquery.nestable.js"></script>
+	<script>
+		$(function(){
+			$('#menuadd').on('click', function(){
+				var name=$('input[type=text]'),
+					weight=$('input[type=number]');
+
+				if(name.lenght>0 || weight>0){
+					console.log(name+ ' '+ weight);
+				}
+			})
+		})
+	</script>
+</body>
+</html>
