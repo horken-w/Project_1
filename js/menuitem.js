@@ -95,13 +95,15 @@ $(function(){
 	$('body').on( 'click','.add', function(){
 		$('#menuadd').stop().toggle(1000);
 	})
-	$('input[name=submit]').on('click', function(){
+	$('#menuadd').on('submit', function(e){
 		var name=$('input[type=text]').val(),
-			weight=$('input[type=number]').val();
-		if(name.length>0 || weight>0){
+			weight=1;
+		if(name.length>0){
 			$('#menulistLeft').append(menuList({name: name, linklistid: weight}));
-
+			weight++
 		}
 		else $('#menuadd').after('<span>欄位不可為空白</span>').next().css('color', 'red');
+		
+		return false;
 	})
 })
