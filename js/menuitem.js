@@ -1,17 +1,10 @@
 function setmenu(jmenu){
-	var list=$.parseJSON(jmenu);
-
-	$.each(list.menuList, function(i, val){
-		
-		$('#menulistLeft').append(menuList(val));
+	var lists=$.parseJSON(jmenu);
+	console.log(lists);
+	$.each(lists.menuList, function(i, val){
+		menuList(val);
 	})
-	if(list.userList.length <= 0)
-		$('<div class="dd-empty"></div>').appendTo('#menulistRight');
-	else{
-		$.each(list.userList, function(i, val){
-			$('#menulistRight').children().append(modelList(val));
-		})
-	}
+	$('<div class="dd-empty"></div>').appendTo('#menulistRight');
 }
 function modelList(item){
 	var buildmenu = '<li class="dd-item dd3-item" data-name="' + item.name + '" data-auth="' + item.viewable + '">';
@@ -26,20 +19,33 @@ function modelList(item){
 	buildmenu+='</li>'
 	return buildmenu;
 }
+function backendMenu(item){
 
+}
 function menuList(item){
-	console.log(item);
-	var buildmenu = '<li class="dd-item dd3-item dd-nonest" data-name="' + item.name + '">';
-		buildmenu += '<div class="dd-handle dd3-handle">DragHere</div><div class="dd3-content" name=" menu' + item.linklistid + '">' + item.name + '</div></li>';
-		if(item.menu){
-			$.each(item.menu, function(i, sub){
-				buildmenu+= menuList(sub);
-			})
-		}
-	return buildmenu;
+	if(item.url=== undefined || item.url==''){
+		var $li=$('<li></li>');
+		$li.append($('<div></div>',{
+			class: 'dd-handle dd3-handle',
+			text: 'DragHere'
+		})).append($('<div></div>',{
+			class: 'dd3-content blue',
+			name: 'menu '+ item.id,
+			text: item.name
+		})).addClass('dd-item dd3-item').attr('data-id', item.id).appendTo('#menulistLeft');
+	}else{
+		var $li=$('<li></li>');
+		$li.append($('<div></div>',{
+			class: 'dd-handle dd3-handle',
+			text: 'DragHere'
+		})).append($('<div></div>',{
+			class: 'dd3-content skyblue',
+			name: 'menu '+ item.id,
+			text: item.name
+		})).addClass('dd-item dd3-item dd-nonest').attr('data-id', item.id).appendTo('#menulistLeft');
+	}
 }
 function setPermissions(e){
-	var p=123;
 	 BootstrapDialog.show({
         title: '使用者權限設定',
         closable: false,
@@ -60,12 +66,9 @@ function setPermissions(e){
         }]
     });
 }
-function creatNode(){
-
-}
 $(function(){
 	$.ajax({
-		url: 'menuJSON(userlist).json',
+		url: 'menuJSON.json',
 		type: 'post',
 		datatype: 'json',
 		success: setmenu
@@ -83,27 +86,12 @@ $(function(){
 		group: 1
 	});
 	$('#menulistRight').nestable({
-		group: 1,
-		maxDepth: 3
+		group: 1
 	})
 	$('input[type=button]:first-child').on('click', function(){
 		updateOutput($('#menulistRight').data('output', $('#nestable-output')));
 	});
-	$('#menulistRight').on('click','.dd3-content', function(e){
+	$('#menulistRight').on('click','.skyblue', function(e){
 		var permse=setPermissions(e);
 	});
-	$('body').on( 'click','.add', function(){
-		$('#menuadd').stop().toggle(1000);
-	})
-	$('#menuadd').on('submit', function(e){
-		var name=$('input[type=text]').val(),
-			weight=1;
-		if(name.length>0){
-			$('#menulistLeft').append(menuList({name: name, linklistid: weight}));
-			weight++
-		}
-		else $('#menuadd').after('<span>欄位不可為空白</span>').next().css('color', 'red');
-		
-		return false;
-	})
 })

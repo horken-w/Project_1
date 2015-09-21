@@ -46,7 +46,7 @@
         group           : 0,
         maxDepth        : 5,
         threshold       : 20,
-        isNestAllowed   : function(parent,item) { return true; }
+        isNestAllowed   : function(parent,item) { return true;}
     };
 
     function Plugin(element, options)
@@ -64,9 +64,7 @@
             var list = this;
 
             list.reset();
-
             list.el.data('nestable-group', this.options.group);
-
             list.placeEl = $('<div class="' + list.options.placeClass + '"/>');
 
             $.each(this.el.find(list.options.itemNodeName), function(k, el) {
@@ -99,15 +97,16 @@
                 var handle = $(e.target);
                 if (!handle.hasClass(list.options.handleClass)) {
                     if (handle.closest('.' + list.options.noDragClass).length) {
-                        return;
+                        return false;
                     }
                     handle = handle.closest('.' + list.options.handleClass);
+                }else{
+                    if (!handle.length || list.dragEl || (!isTouch && e.button !== 0) || (isTouch && e.touches.length !== 1)) {
+                        return false;
+                    }
+                    e.preventDefault();
+                    list.dragStart(isTouch ? e.touches[0] : e);
                 }
-                if (!handle.length || list.dragEl || (!isTouch && e.button !== 0) || (isTouch && e.touches.length !== 1)) {
-                    return;
-                }
-                e.preventDefault();
-                list.dragStart(isTouch ? e.touches[0] : e);
             };
 
             var onMoveEvent = function(e)
@@ -295,7 +294,7 @@
 
         dragStop: function(e)
         {
-            // fix for zepto.js
+            //fix for zepto.js
             //this.placeEl.replaceWith(this.dragEl.children(this.options.itemNodeName + ':first').detach());
             var el = this.dragEl.children(this.options.itemNodeName).first();
             el[0].parentNode.removeChild(el[0]);
@@ -310,6 +309,7 @@
         },
         canDrop: function(prev, opt) {
             var depth = this.placeEl.parents(opt.listNodeName).length;
+            console.log(opt.noNestClass);
             return !prev.hasClass(opt.noNestClass) && depth + this.dragDepth <= opt.maxDepth
                 && opt.isNestAllowed(prev,this.dragEl.children(opt.itemNodeName).first() )
         },
