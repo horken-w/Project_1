@@ -78,7 +78,6 @@
                 var target = $(e.currentTarget),
                     action = target.data('action'),
                     item   = target.parent(list.options.itemNodeName);
-
                 if (action === 'collapse') {
                     list.collapseItem(item);
                 }
@@ -86,8 +85,8 @@
                     list.expandItem(item);
                 }
 				else {
-					if( typeof list.options.customActions != 'undefined' && list.options.customActions.hasOwnProperty(action)) {
-                        list.options.customActions[action]( item, target, e );
+					if( typeof list.options.customActions != 'undefined' && list.options.customActions.hasOwnProperty(action) ) {
+						list.options.customActions[action]( item, target, e );
 					}
 				}
             });
@@ -273,9 +272,12 @@
 
             // fix for zepto.js
             //dragItem.after(this.placeEl).detach().appendTo(this.dragEl);
-            dragItem.after(this.placeEl);
-            dragItem[0].parentNode.removeChild(dragItem[0]);
-            dragItem.appendTo(this.dragEl);
+            // dragItem.after(this.placeEl);
+            // dragItem[0].parentNode.removeChild(dragItem[0]);
+            // dragItem.appendTo(this.dragEl);
+            var $cloneItem = dragItem.clone();
+            console.log($cloneItem);
+             ($cloneItem).appendTo(this.dragEl);
 
             $(document.body).append(this.dragEl);
             this.dragEl.css({
@@ -295,36 +297,74 @@
 
         dragStop: function(e)
         {
-            //fix for zepto.js
-            //this.placeEl.replaceWith(this.dragEl.children(this.options.itemNodeName + ':first').detach());
-            var el = this.dragEl.children(this.options.itemNodeName).first();
-            el[0].parentNode.removeChild(el[0]);
-            this.placeEl.replaceWith(el);
-
-            this.dragEl.remove();
-            this.el.trigger('change');
-            if (this.hasNewRoot) {
-                this.dragRootEl.trigger('change');
-            }
-            this.reset();
+		//fix for zepto.js
+		//this.placeEl.replaceWith(this.dragEl.children(this.options.itemNodeName + ':first').detach());
+		var el = this.dragEl.children(this.options.itemNodeName).first();
+	        el[0].parentNode.removeChild(el[0]);
+	        if(el.find('div[class="dd3-content blue"]').length==1&&this.placeEl.parent().parent().attr("id")!='menulistRight'){
+		        var buts = this.placeEl.parent().parent().find('button[class="dd-action"]');
+		        if(this.placeEl.parent().find('li').length==0){
+			        for(var i=0;i<buts.length;i++){
+				        $(buts[i]).replaceWith();
+			        }
+		        }
+			this.placeEl.replaceWith();
+		        // $('div#menulistLeft').append(el);
+	        }else if(el.find('div[class="dd3-content blue"]').length==0 && this.placeEl.parent().parent().attr("id")=='menulistRight'){
+		         if($(this.dragRootEl.context).attr('class')!='dd-empty')
+			        this.placeEl.replaceWith();
+		        else{
+			        this.placeEl.replaceWith($('<div class="dd-empty"/>'));
+		        }
+		        // $('div#menulistLeft').append(el);
+	        }else if(this.placeEl.parent().attr("id")=='menulistLeft'||this.placeEl.parent().parent().parent().attr("id")=='menulistLeft'){
+                var buts = this.placeEl.parent().parent().find('button[class="dd-action"]');
+                if(this.placeEl.parent().find('li').length==0){
+                    for(var i=0;i<buts.length;i++){
+                        $(buts[i]).replaceWith();
+                    }
+                }
+                this.placeEl.replaceWith();
+            }else{
+		        this.placeEl.replaceWith(el);
+		        this.dragEl.remove();
+		        this.el.trigger('change');
+		        if (this.hasNewRoot) {
+			        this.dragRootEl.trigger('change');
+		        }
+	        }
+	        //if((el.find('div[class="dd3-content blue"]').length==1&&this.placeEl.parent().parent().attr("id")!='menulistRight')
+	        //||      (el.find('div[class="dd3-content blue"]').length==0 && this.placeEl.parent().parent().attr("id")=='menulistRight')){
+		 //       if($(this.dragRootEl.context).attr('class')!='dd-empty')
+		 //               this.placeEl.replaceWith();
+		 //       else{
+			//        this.placeEl.replaceWith($('<div class="dd-empty"/>'));
+		 //       }
+		 //       $('div#menulistLeft').append(el);
+	        //}else{
+	        //
+	        //
+	        //}
+	        this.reset();
         },
         canDrop: function(prev, opt) {
             var depth = this.placeEl.parents(opt.listNodeName).length;
+            console.log(opt.noNestClass);
             return !prev.hasClass(opt.noNestClass) && depth + this.dragDepth <= opt.maxDepth
                 && opt.isNestAllowed(prev,this.dragEl.children(opt.itemNodeName).first() )
         },
         addToList: function( dropPoint, opt ) {
             var list = dropPoint.find(opt.listNodeName).last();
-            if (!list.length) {
-                list = $('<' + opt.listNodeName + '/>').addClass(opt.listClass);
-                list.append(this.placeEl);
-                dropPoint.append(list);
-                this.setParent(dropPoint);
-            } else {
-                // else append to next level up
-                list = dropPoint.children(opt.listNodeName).last();
-                list.append(this.placeEl);
-            }
+	        if (!list.length) {
+		        list = $('<' + opt.listNodeName + '/>').addClass(opt.listClass);
+		        list.append(this.placeEl);
+		        dropPoint.append(list);
+		        this.setParent(dropPoint);
+	        } else {
+		        // else append to next level up
+		        list = dropPoint.children(opt.listNodeName).last();
+		        list.append(this.placeEl);
+	        }
         },
         dragMove: function(e)
         {

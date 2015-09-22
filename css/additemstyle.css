@@ -153,9 +153,6 @@ p {
 .dd-item > button[data-action="collapse"]:before {
     content: '-';
 }
-.btn{
-    color: hsl(20, 80%, 10%);
-}
 .dd-placeholder,
 .dd-empty {
     margin: 5px 0;
@@ -372,4 +369,9 @@ span{
 }
 .dd-deleted{
     opacity: 0.4;
+}
+
+.btn{
+    color: hsl(20, 80%, 80%);
+    z-index: 100;
 }
