@@ -78,6 +78,7 @@
                 var target = $(e.currentTarget),
                     action = target.data('action'),
                     item   = target.parent(list.options.itemNodeName);
+
                 if (action === 'collapse') {
                     list.collapseItem(item);
                 }
@@ -85,8 +86,8 @@
                     list.expandItem(item);
                 }
 				else {
-					if( typeof list.options.customActions != 'undefined' && list.options.customActions.hasOwnProperty(action) ) {
-						list.options.customActions[action]( item, target, e );
+					if( typeof list.options.customActions != 'undefined' && list.options.customActions.hasOwnProperty(action)) {
+                        list.options.customActions[action]( item, target, e );
 					}
 				}
             });
@@ -309,7 +310,6 @@
         },
         canDrop: function(prev, opt) {
             var depth = this.placeEl.parents(opt.listNodeName).length;
-            console.log(opt.noNestClass);
             return !prev.hasClass(opt.noNestClass) && depth + this.dragDepth <= opt.maxDepth
                 && opt.isNestAllowed(prev,this.dragEl.children(opt.itemNodeName).first() )
         },

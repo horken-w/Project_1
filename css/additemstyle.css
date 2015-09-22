@@ -153,7 +153,9 @@ p {
 .dd-item > button[data-action="collapse"]:before {
     content: '-';
 }
-
+.btn{
+    color: hsl(20, 80%, 10%);
+}
 .dd-placeholder,
 .dd-empty {
     margin: 5px 0;
@@ -367,4 +369,7 @@ span{
     background: -moz-linear-gradient(top, hsl(184, 63.5%, 84.6%) 0%, hsl(184, 65%, 40%)50%, hsl(184, 63.5%, 84.6%) 100%);
     background: linear-gradient(top, hsl(184, 63.5%, 84.6%) 0%, hsl(184, 65%, 40%)50%, hsl(184, 63.5%, 84.6%) 100%);
     color: hsl(0, 100%, 100%);
+}
+.dd-deleted{
+    opacity: 0.4;
 }

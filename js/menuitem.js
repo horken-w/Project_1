@@ -1,6 +1,5 @@
 function setmenu(jmenu){
 	var lists=$.parseJSON(jmenu);
-	console.log(lists);
 	$.each(lists.menuList, function(i, val){
 		menuList(val);
 	})
@@ -23,9 +22,15 @@ function backendMenu(item){
 
 }
 function menuList(item){
+	var $li=$('<li></li>'), $sp=$('<span class="glyphicon glyphicon-remove-circle"></span>');
 	if(item.url=== undefined || item.url==''){
-		var $li=$('<li></li>');
-		$li.append($('<div></div>',{
+		$li.append($('<a></a>', {
+			class: 'dd-action pull-right btn',
+			href: '#',
+			'data-action': 'remove',
+			title: 'remove'
+		}).append($sp))
+		.append($('<div></div>',{
 			class: 'dd-handle dd3-handle',
 			text: 'DragHere'
 		})).append($('<div></div>',{
@@ -34,8 +39,13 @@ function menuList(item){
 			text: item.name
 		})).addClass('dd-item dd3-item').attr('data-id', item.id).appendTo('#menulistLeft');
 	}else{
-		var $li=$('<li></li>');
-		$li.append($('<div></div>',{
+		$li.append($('<a></a>', {
+			class: 'dd-action pull-right btn',
+			href: '#',
+			'data-action': 'remove',
+			title: 'remove'
+		}).append($sp))
+		.append($('<div></div>',{
 			class: 'dd-handle dd3-handle',
 			text: 'DragHere'
 		})).append($('<div></div>',{
@@ -46,7 +56,7 @@ function menuList(item){
 	}
 }
 function setPermissions(e){
-	 BootstrapDialog.show({
+	BootstrapDialog.show({
         title: '使用者權限設定',
         closable: false,
         message: $('<div></div>').load('../nestableList/permiss.html'),
@@ -86,7 +96,18 @@ $(function(){
 		group: 1
 	});
 	$('#menulistRight').nestable({
-		group: 1
+		group: 1,
+		customActions :{
+			'remove' : function(item, link){
+				if(item.hasClass('dd-deleted')){
+					item.removeClass('dd-deleted').children('.dd3-handle').addClass('dd-handle');
+					link.html('<span class="glyphicon glyphicon-remove-circle"></span>');
+				}else{
+					item.addClass('dd-deleted').children('.dd3-handle').removeClass('dd-handle');
+					link.html('<span>回復</span>');
+				}
+			}
+		}
 	})
 	$('input[type=button]:first-child').on('click', function(){
 		updateOutput($('#menulistRight').data('output', $('#nestable-output')));
@@ -94,4 +115,7 @@ $(function(){
 	$('#menulistRight').on('click','.skyblue', function(e){
 		var permse=setPermissions(e);
 	});
+	$('li').on('change', function(){
+		 console.log(this);
+	})
 })
