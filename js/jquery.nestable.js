@@ -276,7 +276,6 @@
             // dragItem[0].parentNode.removeChild(dragItem[0]);
             // dragItem.appendTo(this.dragEl);
             var $cloneItem = dragItem.clone();
-            console.log($cloneItem);
              ($cloneItem).appendTo(this.dragEl);
 
             $(document.body).append(this.dragEl);
@@ -314,7 +313,7 @@
 		         if($(this.dragRootEl.context).attr('class')!='dd-empty')
 			        this.placeEl.replaceWith();
 		        else{
-			        this.placeEl.replaceWith($('<div class="dd-empty"/>'));
+			        this.dragRootEl.children().replaceWith($('<div class="dd-empty"/>'));
 		        }
 		        // $('div#menulistLeft').append(el);
 	        }else if(this.placeEl.parent().attr("id")=='menulistLeft'||this.placeEl.parent().parent().parent().attr("id")=='menulistLeft'){
@@ -345,6 +344,7 @@
 	        //
 	        //
 	        //}
+            $(document.body).find('ol[class="dd-list dd-dragel"]').replaceWith();
 	        this.reset();
         },
         canDrop: function(prev, opt) {
