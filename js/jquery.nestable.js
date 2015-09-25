@@ -148,7 +148,6 @@
                 {
                     var array = [ ],
                         items = level.children(list.options.itemNodeName);
-                        // console.log(level+' '+ depth)
                     items.each(function()
                     {
                         var li   = $(this),
@@ -163,6 +162,7 @@
                     return array;
                 };
             data = step(list.el.find(list.options.listNodeName).first(), depth);
+            console.log(data);
             return data;
         },
 

@@ -45,7 +45,7 @@ function menuList(item){
 			class: 'dd3-content blue',
 			name: 'menulv1',
 			text: item.name
-		})).addClass('dd-item dd3-item').appendTo('#menulistLeft');
+		})).addClass('dd-item dd3-item').attr('data-url','name').appendTo('.dd-list');
 	}else{
 		$li.append($('<a></a>', {
 			class: 'dd-action pull-right btn',
@@ -60,9 +60,8 @@ function menuList(item){
 			class: 'dd3-content skyblue',
 			name: 'menulv2',
 			text: item.name
-		})).addClass('dd-item dd3-item dd-nonest').appendTo('#menulistLeft');
+		})).addClass('dd-item dd3-item dd-nonest').attr('data-url','name').appendTo('#menulistLeft');
 	}
-	console.log(item);
 }
 function setPermissions(e){
 	BootstrapDialog.show({
@@ -119,7 +118,7 @@ $(function(){
 		}
 	})
 	$('input[type=button]:first-child').on('click', function(){
-		updateOutput($('#menulistRight').data('output', $('#nestable-output')));
+		updateOutput($('#menulistLeft').data('output', $('#nestable-output')));
 	});
 	$('#menulistRight').on('click','.skyblue', function(e){
 		var permse=setPermissions(e);
