@@ -26,9 +26,6 @@ function modelList(item){
 	buildmenu+='</li>'
 	return buildmenu;
 }
-function backendMenu(item){
-
-}
 function menuList(item){
 	var $li=$('<li></li>'), $sp=$('<span class="glyphicon glyphicon-remove-circle"></span>');
 	if(item.url=== undefined || item.url==''){
